@@ -33,13 +33,33 @@ url VARCHAR(40),
 PRIMARY KEY (permission_id)
 );
 
+CREATE TABLE role_permission (
+role_permission_id VARCHAR(20) NOT NULL,
+role_id VARCHAR (40),
+permission_id VARCHAR (40),
+PRIMARY KEY (role_permission_id),
+FOREIGN KEY (role_id) REFERENCES role(role_id),
+FOREIGN KEY (permission_id) REFERENCES permission(permission_id)
+);
+
+CREATE TABLE user_role (
+user_role_id VARCHAR(20) NOT NULL, 
+user_id VARCHAR (40),
+role_id VARCHAR (40),
+PRIMARY KEY (user_role_id),
+FOREIGN KEY (user_id) REFERENCES tus_user(user_id),
+FOREIGN KEY (role_id) REFERENCES role(role_id)
+);
 
 CREATE TABLE user_module (
 user_module_id VARCHAR(20) NOT NULL,
-user_id VARCHAR(40) NOT NULL, 
-module_id VARCHAR(20) NOT NULL, 
-grade_id VARCHAR(6) NOT NULL,
-PRIMARY KEY (user_module_id)
+user_id VARCHAR (40),
+module_id VARCHAR (40),
+grade_id VARCHAR (40),
+PRIMARY KEY (user_module_id),
+FOREIGN KEY (user_id) REFERENCES tus_user(user_id),
+FOREIGN KEY (module_id) REFERENCES module(module_id),
+FOREIGN KEY (grade_id) REFERENCES grade(grade_id)
 );
 
 
