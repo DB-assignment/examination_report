@@ -62,5 +62,8 @@ FOREIGN KEY (module_id) REFERENCES module(module_id),
 FOREIGN KEY (grade_id) REFERENCES grade(grade_id)
 );
 
+ALTER TABLE tus_user
+ADD password VARCHAR(20);
+
 
 
