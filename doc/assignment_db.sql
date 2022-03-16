@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `grade`;
 CREATE TABLE `grade` (
   `grade_id` varchar(40) NOT NULL,
   `assessment_mark` double DEFAULT NULL,
-  `exam_mark` double DEFAULT NULL,
+  `exam_tus_usermark` double DEFAULT NULL,
   `final_mark` double DEFAULT NULL,
   PRIMARY KEY (`grade_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -149,7 +149,7 @@ DROP TABLE IF EXISTS `tus_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tus_user` (
-  `user_id` varchar(40) NOT NULL,
+  `user_id` varchar(40) AUTO_INCREMENT NOT NULL,
   `user_name` varchar(45) NOT NULL,
   `first_name` varchar(20) DEFAULT NULL,
   `last_name` varchar(20) DEFAULT NULL,

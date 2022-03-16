@@ -1,57 +1,20 @@
 from flask import Flask, render_template, request, redirect, jsonify, flash
 # from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 import pymysql.cursors
 
 app = Flask(__name__)
 
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = 'root1234'
-# app.config['MYSQL_DB'] = 'assignment_db'
-#
-# mysql = MySQL(app)
-#
-#
-# @app.route('/new_user')
-# def add_user_view():
-#     return render_template('register.html')
-#
-#
-# @app.route('/register', methods=['post'])
-# def add_user():
-#     conn = None
-#     cursor = None
-#     try:
-#         details = request.form
-#         first_name = details['first_name']
-#         last_name = details['last_name']
-#         email = details['email']
-#         password = details['password']
-#         # validate the received values
-#         if first_name and last_name and email and request.method == 'POST':
-#             # save edits
-#             sql = "INSERT INTO tus_user(first_name, last_name, email, password) VALUES(%s, %s, %s, %s)"
-#             data = (first_name, last_name, email, password)
-#             conn = mysql.connect()
-#             cursor = conn.cursor()
-#             cursor.execute(sql, data)
-#             conn.commit()
-#             response = jsonify(message='User added successfully.', id=cursor.lastrowid)
-#             # response.data = cursor.lastrowid
-#             response.status_code = 200
-#             flash('User added successfully!')
-#             return redirect('/home')
-#         else:
-#             return 'Error while adding user'
-#     except Exception as e:
-#         print(e)
-#         response = jsonify('Failed to add user.')
-#         response.status_code = 400
-#     finally:
-#         cursor.close()
-#         conn.close()
-#         return (response)
+db = SQLAlchemy(app)
 
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:admin@127.0.0.1/assignment-db"
+
+# basic model
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True, index=True)
+    password = db.Column(db.String(128))
 
 @app.route('/')
 def hello_world():  # put application's code here
@@ -76,6 +39,10 @@ def home():
 def go_to_login():
     return render_template('login.html')
 
+@app.route('/go_to_register')
+def go_to_register():
+    return render_template('register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -85,12 +52,47 @@ def login():
     return render_template('login.html')
 
 
-def get_tus_user(username, password):
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    reg_email = request.form['reg_email']
+    pwd = request.form['pwd']
+    print(first_name, last_name, reg_email, pwd)
+    register_tus_user(first_name, last_name, reg_email, pwd)
+    return render_template('register.html')
+
+
+def register_tus_user(first_name, last_name, reg_email, pwd):
+    print(first_name, last_name, reg_email, pwd)
     connect = pymysql.Connect(
         host='localhost',
         port=3306,
         user='root',
-        passwd='root1234',
+        passwd='admin',
+        db='assignment_db'
+    )
+
+    cursor = connect.cursor()
+    sql = "INSERT INTO assignment_db.tus_user (first_name, last_name, email, password) VALUES ('" + first_name + "', '" + last_name + "', '" + reg_email + "', '" + pwd + "');"
+    cursor.execute(sql)
+    connect.close()
+    return True
+
+
+
+def get_tus_user(username, password):
+    print(username, password)
+    connect = pymysql.Connect(
+        #host='localhost',
+        #port=3306,
+        #user='root',
+        #passwd='root1234',
+        #db='assignment_db'
+        host='localhost',
+        port=3306,
+        user='root',
+        passwd='admin',
         db='assignment_db'
     )
 
