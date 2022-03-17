@@ -1,15 +1,20 @@
+import json
+
 from flask import Flask, render_template, request, redirect, jsonify, flash
-# from flask_mysqldb import MySQL
+from flask_mysqldb import MySQL
 import pymysql.cursors
+from models.tus_user import tus_user
+from service.user import get_user
 
 app = Flask(__name__)
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'root1234'
+app.config['MYSQL_DB'] = 'assignment_db'
 
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = 'root1234'
-# app.config['MYSQL_DB'] = 'assignment_db'
-#
-# mysql = MySQL(app)
+mysql = MySQL(app)
+
+
 #
 #
 # @app.route('/new_user')
@@ -77,34 +82,10 @@ def go_to_login():
     return render_template('login.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     user_name = request.form['user_name']
     password = request.form['password']
-    get_tus_user(user_name, password)
-    return render_template('login.html')
-
-
-def get_tus_user(username, password):
-    connect = pymysql.Connect(
-        host='localhost',
-        port=3306,
-        user='root',
-        passwd='root1234',
-        db='assignment_db'
-    )
-
-    cursor = connect.cursor()
-    sql = "SELECT * FROM assignment_db.tus_user where first_name='" + username + "' and password=" + password + "; "
-    cursor.execute(sql)
-    user = cursor.fetchall()
-    print(user)
-    # for row in cursor.fetchall():
-    #     id = row[1]
-    #     username = row[2]
-    #     last_name = row[3]
-    #     email = row[4]
-    #     password = row[5]
-    #     print(row)
-    connect.close()
-    return user
+    rv = get_user(mysql, password, user_name)
+    msg = "username or password is wrong"
+    return render_template('login.html', user_name=user_name, user=rv[0])
