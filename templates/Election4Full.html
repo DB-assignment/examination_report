@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Basic Pie Chart</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="d3.legend.js"></script>
+
+	<style>
+	
+		body{
+			background-color: gray;
+		}
+		
+		main {
+			width: 500px;
+			margin: 0 auto;
+			background-color: white;
+			padding:20px;
+		}
+		
+		main h1 { 
+			color:gray;
+			padding-left:3em;
+		}
+		
+		.pieText {
+			font: 10px sans-serif;
+			text-anchor: middle;
+			fill:white;
+		}
+		
+		.legend rect {
+			 fill:white;
+			 stroke:black;
+			 opacity:0.8; 
+		}
+	
+	</style>
+  </head>
+  <body>
+	<main>
+		
+			<div id="chart">
+				<h1>Party Standings</h1>
+			</div>
+				
+				<script>
+			 
+				var dataset = [
+				  { label: 'Fianna Fail', count: 19 }, 
+				  { label: 'Fine Gael', count: 26 },
+				  { label: 'Labour', count: 9 },
+				  { label: 'Sinn Fein', count: 17 },
+				  { label: 'Others', count: 29 }
+				];
+
+				var width = 500;
+				var height = 400;
+				var radius = 200;
+
+				//predefined category of 20 colours
+				var color = d3.scale.category20();
+
+				//append an SVG and then append a 'g' (group) onto that
+				var svg = d3.select('#chart')
+				  .append('svg')
+				  .attr('width', width)
+				  .attr('height', height)
+				  .append('g')
+				  .attr('transform', 'translate(' + ((width-100) / 2) + 
+					',' + (height / 2) + ')');
+			
+				var arc = d3.svg.arc()
+				  .outerRadius(radius);
+
+				var labelArc = d3.svg.arc()
+				  .outerRadius(radius- 40)
+				  .innerRadius(radius- 40);
+
+				var pie = d3.layout.pie()
+				  .value(function(d) { return d.count; })
+				  .sort(null);
+
+				var g = svg.selectAll('g')
+				  .data(pie(dataset))
+				  .enter().append('g');
+				  
+				g.append("path")
+					.attr('d', arc)
+					.attr("data-legend", function(d){return d.data.label})
+					.attr("data-legend-pos", function(d, i){return i})
+					.attr('fill', function(d, i) { 
+						return color(d.data.label);
+				  });
+				  
+				g.append("text")
+					.attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+					.attr("dy", ".35em")
+					.attr("class", "pieText")
+					.text(function(d) { return d.data.count + "%"; });
+				
+				d3.select('svg')
+					.append("g")
+					.attr("class", "legend")
+					.attr("transform", "translate(400 ,50)")
+					.style("font-size", "14px")
+					.call(d3.legend);
+				
+			</script>
+	</main>
+  </body>
+</html>
