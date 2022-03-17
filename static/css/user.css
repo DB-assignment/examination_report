@@ -1,0 +1,42 @@
+body {
+    width: 85%;
+    margin: auto
+}
+
+.h1_title{
+    /*background-color: lightgray;*/
+}
+
+.user_border {
+    margin-top: 20px;
+    /*border: lightblue 2px solid;*/
+    /*border-radius: 10px;*/
+}
+
+.title_padding {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.left-side {
+    border: solid 1px lightblue;
+    /*border-radius: 5px;*/
+
+}
+
+.left-side > ul > li > a {
+    /*background-color: lightseagreen;*/
+
+    color: black;
+    font-size: 32px;
+    /*margin-top: 50px;*/
+}
+
+.right-side{
+    border: solid 1px lightblue;
+    /*border-radius: 5px;*/
+}
+
+ul {
+    text-align: center;
+}
