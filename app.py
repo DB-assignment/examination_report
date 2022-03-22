@@ -8,7 +8,7 @@ import pymysql.cursors
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'admin' #root1234
+app.config['MYSQL_PASSWORD'] = 'root1234' #root1234
 app.config['MYSQL_DB'] = 'assignment_db'
 pageLimit = 10
 mysql = MySQL(app)
