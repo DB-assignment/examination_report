@@ -81,7 +81,273 @@
             </div>
         </div>
     </div>
+    <div class="row" style="border: 1px lightgrey solid;background: #f3f6f7;margin-top: 20px">
+        <div class="col-md-3" style="margin: auto;text-align: center">
+            <h1>User ratio. </h1>
+        </div>
+        <div class="col-md-9">
+            <figure class="highcharts-figure">
+                <h1>User ratio. </h1>
+                <div id="user_percentage"></div>
+                <p class="highcharts-description">
+                    User ratio.
+                </p>
+            </figure>
+        </div>
+    </div>
 </div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script>
+    // Radialize the colors
+    Highcharts.setOptions({
+        colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+            return {
+                radialGradient: {
+                    cx: 0.5,
+                    cy: 0.3,
+                    r: 0.7
+                },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        })
+    });
+
+    // Build the chart
+    Highcharts.chart('user_percentage', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'User ratio'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        series: [{
+            name: 'Share',
+            data: [
+                {name: 'Admin', y: 2.2},
+                {name: 'Lectures', y: 15.8},
+                {name: 'Students', y: 72},
+
+
+                {#                {% for per in pie_data %}#}
+                {#                    {#}
+                {#                        name: '{{ per['type'] }}',#}
+                {#                        y: {{ per['percentage'] }},#}
+                {#                    },#}
+                {#                {% endfor %}#}
+            ]
+        }]
+
+    });
+
+    // Create the chart  (The distribution of rental areas)
+    {#Highcharts.chart('area_percentage', {#}
+    {#    chart: {#}
+    {#        type: 'column'#}
+    {#    },#}
+    {#    title: {#}
+    {#        text: 'The proportion of Area.'#}
+    {#    },#}
+    {#    subtitle: {#}
+    {#        text: ''#}
+    {#    },#}
+    {#    accessibility: {#}
+    {#        announceNewData: {#}
+    {#            enabled: true#}
+    {#        }#}
+    {#    },#}
+    {#    xAxis: {#}
+    {#        type: 'category'#}
+    {#    },#}
+    {#    yAxis: {#}
+    {#        title: {#}
+    {#            text: 'Total percent market share'#}
+    {#        }#}
+    {##}
+    {#    },#}
+    {#    legend: {#}
+    {#        enabled: false#}
+    {#    },#}
+    {#    plotOptions: {#}
+    {#        series: {#}
+    {#            borderWidth: 0,#}
+    {#            dataLabels: {#}
+    {#                enabled: true,#}
+    {#                format: '{point.y:.1f}%'#}
+    {#            }#}
+    {#        }#}
+    {#    },#}
+    {##}
+    {#    tooltip: {#}
+    {#        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',#}
+    {#        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'#}
+    {#    },#}
+    {##}
+    {#    series: [#}
+    {#        {#}
+    {#            name: "Area",#}
+    {#            colorByPoint: true,#}
+    {#            data: [#}
+    {##}
+    {#                {% for per in area_percentage_data %}#}
+    {#                    {#}
+    {#                        name: '{{ per['type'] }}',#}
+    {#                        y: {{ per['percentage'] }},#}
+    {#                        drilldown: '{{ per['type'] }}'#}
+    {#                    },#}
+    {#                {% endfor %}#}
+    {##}
+    {#            ]#}
+    {#        }#}
+    {#    ]#}
+    {##}
+    {#})
+        ;
+        #}
+        {##}
+        {##}
+        {#// Create the chart  (The ratio of the number of bedrooms)#}
+        {#Highcharts.chart('bedroom_percentage', {#}
+        {#    chart: {#}
+        {#        plotBackgroundColor: null,#}
+        {#        plotBorderWidth: null,#}
+        {#        plotShadow: false,#}
+        {#        type: 'pie'#}
+        {#    },#}
+        {#    title: {#}
+        {#        text: 'Proportion of housing types in the rental market'#}
+        {#    },#}
+        {#    tooltip: {#}
+        {#        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'#}
+        {#    },#}
+        {#    accessibility: {#}
+        {#        point: {#}
+        {#            valueSuffix: '%'#}
+        {#        }#}
+        {#    },#}
+        {#    plotOptions: {#}
+        {#        pie: {#}
+        {#            allowPointSelect: true,#}
+        {#            cursor: 'pointer',#}
+        {#            dataLabels: {#}
+        {#                enabled: true,#}
+        {#                format: '<b>{point.name}</b>: {point.percentage:.1f} %',#}
+        {#                connectorColor: 'silver'#}
+        {#            }#}
+        {#        }#}
+        {#    },#}
+        {#    series: [{#}
+        {#        name: 'Share',#}
+        {#        data: [#}
+        {#            {% for per in bed_pie_data %}#}
+        {#                {#}
+        {#                    name: '{{ per['type'] }}',#}
+        {#                    y: {{ per['percentage'] }},#}
+        {#                },#}
+        {#            {% endfor %}#}
+        {#        ]#}
+        {#    }]#}
+        {##}
+        {#})
+            ;
+            #}
+            {##}
+            {#// Create the chart  (The ratio of the number of bathrooms.)#}
+            {#Highcharts.chart('bathroom_percentage', {#}
+            {#    chart: {#}
+            {#        type: 'column'#}
+            {#    },#}
+            {#    title: {#}
+            {#        text: 'The proportion of Bath.'#}
+            {#    },#}
+            {#    subtitle: {#}
+            {#        text: ''#}
+            {#    },#}
+            {#    accessibility: {#}
+            {#        announceNewData: {#}
+            {#            enabled: true#}
+            {#        }#}
+            {#    },#}
+            {#    xAxis: {#}
+            {#        type: 'category'#}
+            {#    },#}
+            {#    yAxis: {#}
+            {#        title: {#}
+            {#            text: 'Total percent market share'#}
+            {#        }#}
+            {##}
+            {#    },#}
+            {#    legend: {#}
+            {#        enabled: false#}
+            {#    },#}
+            {#    plotOptions: {#}
+            {#        series: {#}
+            {#            borderWidth: 0,#}
+            {#            dataLabels: {#}
+            {#                enabled: true,#}
+            {#                format: '{point.y:.1f}%'#}
+            {#            }#}
+            {#        }#}
+            {#    },#}
+            {##}
+            {#    tooltip: {#}
+            {#        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',#}
+            {#        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'#}
+            {#    },#}
+            {##}
+            {#    series: [#}
+            {#        {#}
+            {#            name: "Bath",#}
+            {#            colorByPoint: true,#}
+            {#            data: [#}
+            {##}
+            {#                {% for per in bath_pie_data %}#}
+            {#                    {#}
+            {#                        name: '{{ per['type'] }}',#}
+            {#                        y: {{ per['percentage'] }},#}
+            {#                        drilldown: '{{ per['type'] }}'#}
+            {#                    },#}
+            {#                {% endfor %}#}
+            {##}
+            {#            ]#}
+            {#        }#}
+            {#    ]#}
+            {##}
+            {#})
+                ;
+    #}
+</script>
+
 
 </body>
 </html>
