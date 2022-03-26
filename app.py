@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request, redirect, jsonify, flash
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
-from service.user import get_user, insert_users_service
+from service.user import get_user, insert_users_service, validateUser
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root1234'#root1234
+app.config['MYSQL_PASSWORD'] = 'admin'#'root1234'
 app.config['MYSQL_DB'] = 'assignment_db'
 pageLimit = 10
 mysql = MySQL(app)
@@ -67,9 +67,9 @@ class User(db.Model):
     password = db.Column(db.String(128))
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+# @app.route('/')
+# def hello_world():  # put application's code here
+#     return 'Hello World!'
 
 
 @app.route('/error')
@@ -81,12 +81,12 @@ if __name__ == '__main__':
     app.run()
 
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     return render_template('home.html')
 
 
-@app.route('/go_to_login')
+@app.route('/')
 def go_to_login():
     return render_template('login.html')
 
@@ -101,10 +101,12 @@ def login():
     user_name = request.form['user_name']
     password = request.form['password']
     users = get_user(mysql, password, user_name)
+
     if len(users) > 0:
         user = users[0]
     msg = "username or password is wrong"
-    return render_template('user.html', user_name=user_name, user=user)
+    return render_template('home.html')
+    #return render_template('user.html', user_name=user_name, user=user)
 
 
 @app.route('/users', methods=['GET'])
