@@ -15,6 +15,23 @@ def get_user(mysql, password, user_name):
     # return json.dumps(json_data)
     return json_data
 
+def validateUser(mysql, user_id):
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "SELECT * FROM assignment_db.user_role where user_id='" + user_id + ";")
+    row_headers = [x[0] for x in cur.description]
+    rv = cur.fetchall()
+    json_data = []
+    for result in rv:
+        json_data.append(dict(zip(row_headers, result)))
+    return json_data
+    # user_id = users[0]['user_id']
+    # user_role = validateUser(mysql, user_id)
+    # if user_role[0][role_id] == '1':
+    #     return render_template('users.html')
+    # else:
+    #     return render_template('home.html')
+
 
 def get_permission(mysql, user_id):
     cur = mysql.connection.cursor()

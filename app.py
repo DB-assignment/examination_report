@@ -5,7 +5,8 @@ from flask import Flask, render_template, request, redirect, jsonify, flash
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 from collections import OrderedDict
-from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data
+from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data,validateUser
+
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
 
@@ -71,9 +72,9 @@ class User(db.Model):
     password = db.Column(db.String(128))
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+# @app.route('/')
+# def hello_world():  # put application's code here
+#     return 'Hello World!'
 
 
 @app.route('/error')
@@ -90,7 +91,7 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/go_to_login')
+@app.route('/')
 def go_to_login():
     return render_template('login.html')
 
@@ -105,13 +106,17 @@ def login():
     user_name = request.form['user_name']
     password = request.form['password']
     users = get_user(mysql, password, user_name)
+
     if len(users) > 0:
         user = users[0]
 
     user_id = user["user_id"]
     # permissions = get_permission(mysql, user_id)
     msg = "username or password is wrong"
-    return redirect("/users")
+
+    # return redirect("/users")
+    return render_template('home.html')
+    #return render_template('user.html', user_name=user_name, user=user)
 
 
 @app.route('/users', methods=['GET'])
