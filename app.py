@@ -1,14 +1,18 @@
+import pandas as pd
+import json
+
 from flask import Flask, render_template, request, redirect, jsonify, flash
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
-from service.user import get_user, insert_users_service
+from collections import OrderedDict
+from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root1234' #root1234
+app.config['MYSQL_PASSWORD'] = 'root1234'  # root1234
 app.config['MYSQL_DB'] = 'assignment_db'
 pageLimit = 10
 mysql = MySQL(app)
@@ -103,8 +107,11 @@ def login():
     users = get_user(mysql, password, user_name)
     if len(users) > 0:
         user = users[0]
+
+    user_id = user["user_id"]
+    # permissions = get_permission(mysql, user_id)
     msg = "username or password is wrong"
-    return render_template('user.html', user_name=user_name, user=user)
+    return redirect("/users")
 
 
 @app.route('/users', methods=['GET'])
@@ -115,8 +122,9 @@ def users():
     sql = "SELECT * FROM assignment_db.tus_user order by user_id desc;"
     cur.execute(sql)
     row_headers = [x[0] for x in cur.description]
-    rv = cur.fetchall()
-    pagination = Pagination(page=page, per_page=per_page, total=len(rv))
+    users = cur.fetchall()
+    pagination = Pagination(page=page, per_page=per_page, total=len(users))
+    user_count = len(users)
     # json_data = []
     # for result in rv:
     #     json_data.append(dict(zip(row_headers, result)))
@@ -127,8 +135,31 @@ def users():
     row_headers = [x[0] for x in cur.description]
     rv2 = cur.fetchall()
     pagination_users = rv2
+    description = cur.description
     cur.close()
-    return render_template('user.html', users=pagination_users, per_page=per_page, rv=rv2, pagination=pagination)
+
+    user_percentage_data = get_user_percentage_data(mysql, users, description)
+    print()
+
+    s_role_type = []
+    percentage = []
+    for user in user_percentage_data:
+        role_type = user["role_type"]
+        count = user["count"]
+        percentage.append(round(count / user_count * 100, 2))
+        s_role_type.append(role_type)
+
+    user_percentage_pie_data = pd.DataFrame(
+        OrderedDict({'type': pd.Series(s_role_type), 'percentage': pd.Series(percentage)})).to_json(
+        orient="records")
+
+    user_percentage_pie_data = json.loads(user_percentage_pie_data)
+    for x in user_percentage_pie_data:
+        print(x)
+
+
+    return render_template('user.html', users=pagination_users, per_page=per_page, rv=rv2, pagination=pagination,
+                           user_percentage_pie_data=user_percentage_pie_data)
 
 
 @app.route('/insert_users', methods=['GET'])
