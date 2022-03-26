@@ -15,6 +15,7 @@ def get_user(mysql, password, user_name):
     # return json.dumps(json_data)
     return json_data
 
+
 def validateUser(mysql, user_id):
     cur = mysql.connection.cursor()
     cur.execute(
@@ -38,6 +39,20 @@ def get_permission(mysql, user_id):
     cur.execute(
         "SELECT * FROM assignment_db.permission where permission_id in (SELECT permission_id FROM assignment_db.role_permission where role_id in (SELECT role_id FROM assignment_db.user_role where user_id in (" + str(
             user_id) + ")));")
+    row_headers = [x[0] for x in cur.description]  # this will extract row headers
+    rv = cur.fetchall()
+    cur.close()
+    json_data = []
+    for result in rv:
+        json_data.append(dict(zip(row_headers, result)))
+    # return json.dumps(json_data)
+    return json_data
+
+
+def get_role(mysql, user_id):
+    cur = mysql.connection.cursor()
+    sql = "SELECT user_role.user_id,role.role_type FROM assignment_db.user_role inner join assignment_db.role on user_role.role_id = role.role_id where user_id = " + str(user_id) + ";"
+    cur.execute(sql)
     row_headers = [x[0] for x in cur.description]  # this will extract row headers
     rv = cur.fetchall()
     cur.close()

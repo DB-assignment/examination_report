@@ -5,7 +5,8 @@ from flask import Flask, render_template, request, redirect, jsonify, flash
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 from collections import OrderedDict
-from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data,validateUser
+from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data, validateUser, \
+    get_role
 
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
@@ -109,14 +110,23 @@ def login():
 
     if len(users) > 0:
         user = users[0]
-
     user_id = user["user_id"]
-    # permissions = get_permission(mysql, user_id)
+    permissions = get_permission(mysql, user_id)
+    roles = get_role(mysql, user_id)
+    role_type = roles[0].get("role_type")
+
+    if role_type == "admin":
+        return redirect("/users")
+    elif role_type == "lecturer":
+        print()
+    else:
+        print("student")
+
     msg = "username or password is wrong"
 
     # return redirect("/users")
     return render_template('home.html')
-    #return render_template('user.html', user_name=user_name, user=user)
+    # return render_template('user.html', user_name=user_name, user=user)
 
 
 @app.route('/users', methods=['GET'])
@@ -161,7 +171,6 @@ def users():
     user_percentage_pie_data = json.loads(user_percentage_pie_data)
     for x in user_percentage_pie_data:
         print(x)
-
 
     return render_template('user.html', users=pagination_users, per_page=per_page, rv=rv2, pagination=pagination,
                            user_percentage_pie_data=user_percentage_pie_data)
