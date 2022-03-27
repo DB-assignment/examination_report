@@ -229,7 +229,7 @@ def lecturer():
     module_name = module_name[0]
     print()
     return render_template('lecturer_info.html', student_grades=student_grades, pagination=pagination, rv=rv,
-                           module_name=module_name)
+                           module_name=module_name, user_name=user_name.capitalize())
 
 
 @app.route('/student', methods=['GET', 'POST'])
