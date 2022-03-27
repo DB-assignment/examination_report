@@ -1,12 +1,15 @@
 import pandas as pd
 import json
 
-from flask import Flask, render_template, request, redirect, jsonify, flash
+from flask import Flask, render_template, request, redirect, jsonify, flash, url_for
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 from collections import OrderedDict
+
+from sqlalchemy import true
+
 from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data, validateUser, \
-    get_role
+    get_role, get_lecture_student_grades, get_lecture_student_grades_rs, get_module_name
 
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
@@ -116,11 +119,11 @@ def login():
     role_type = roles[0].get("role_type")
 
     if role_type == "admin":
-        return redirect("/users")
+        return redirect(url_for('.users', user_name=user_name, password=password))
     elif role_type == "lecturer":
-        print()
+        return redirect(url_for('.lecturer', user_name=user_name, password=password))
     else:
-        print("student")
+        return redirect(url_for('.student', user_name=user_name, password=password))
 
     msg = "username or password is wrong"
 
@@ -131,6 +134,8 @@ def login():
 
 @app.route('/users', methods=['GET'])
 def users():
+    user_name = request.args['user_name']
+    password = request.args['password']
     page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
     offset = str((page - 1) * 10)
     cur = mysql.connection.cursor()
@@ -207,3 +212,29 @@ def register_tus_user(first_name, last_name, reg_email, pwd):
     cursor.execute(sql)
     connect.close()
     return True
+
+
+@app.route('/lecturer', methods=['GET', 'POST'])
+def lecturer():
+    user_name = request.args['user_name']
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    offset = str((page - 1) * 10)
+
+    student_grades = get_lecture_student_grades(mysql, user_name, 0, offset)
+    pagination = Pagination(page=page, per_page=per_page, total=len(student_grades))
+    # pagination = Pagination(page=page, per_page=per_page, total=len(users))
+    rv = get_lecture_student_grades_rs(mysql, user_name, 10, offset)
+
+    module_name = get_module_name(mysql, user_name)
+    module_name = module_name[0]
+    print()
+    return render_template('lecturer_info.html', student_grades=student_grades, pagination=pagination, rv=rv,
+                           module_name=module_name)
+
+
+@app.route('/student', methods=['GET', 'POST'])
+def student():
+    user_name = request.args['user_name']
+    password = request.args['password']
+    # student_grades = get_student_grades(mysql, user_name)
+    return render_template('student_info.html', user_name=user_name)
