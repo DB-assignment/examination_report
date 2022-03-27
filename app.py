@@ -1,14 +1,23 @@
-from flask import Flask, render_template, request, redirect, jsonify, flash
+import pandas as pd
+import json
+
+from flask import Flask, render_template, request, redirect, jsonify, flash, url_for
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
-from service.user import get_user, insert_users_service, validateUser
+from collections import OrderedDict
+
+from sqlalchemy import true
+
+from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data, validateUser, \
+    get_role, get_lecture_student_grades, get_lecture_student_grades_rs, get_module_name
+
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'admin'#'root1234'
+app.config['MYSQL_PASSWORD'] = 'root1234'  # root1234
 app.config['MYSQL_DB'] = 'assignment_db'
 pageLimit = 10
 mysql = MySQL(app)
@@ -104,21 +113,38 @@ def login():
 
     if len(users) > 0:
         user = users[0]
+    user_id = user["user_id"]
+    permissions = get_permission(mysql, user_id)
+    roles = get_role(mysql, user_id)
+    role_type = roles[0].get("role_type")
+
+    if role_type == "admin":
+        return redirect(url_for('.users', user_name=user_name, password=password))
+    elif role_type == "lecturer":
+        return redirect(url_for('.lecturer', user_name=user_name, password=password))
+    else:
+        return redirect(url_for('.student', user_name=user_name, password=password))
+
     msg = "username or password is wrong"
+
+    # return redirect("/users")
     return render_template('home.html')
-    #return render_template('user.html', user_name=user_name, user=user)
+    # return render_template('user.html', user_name=user_name, user=user)
 
 
 @app.route('/users', methods=['GET'])
 def users():
+    user_name = request.args['user_name']
+    password = request.args['password']
     page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
     offset = str((page - 1) * 10)
     cur = mysql.connection.cursor()
     sql = "SELECT * FROM assignment_db.tus_user order by user_id desc;"
     cur.execute(sql)
     row_headers = [x[0] for x in cur.description]
-    rv = cur.fetchall()
-    pagination = Pagination(page=page, per_page=per_page, total=len(rv))
+    users = cur.fetchall()
+    pagination = Pagination(page=page, per_page=per_page, total=len(users))
+    user_count = len(users)
     # json_data = []
     # for result in rv:
     #     json_data.append(dict(zip(row_headers, result)))
@@ -129,8 +155,30 @@ def users():
     row_headers = [x[0] for x in cur.description]
     rv2 = cur.fetchall()
     pagination_users = rv2
+    description = cur.description
     cur.close()
-    return render_template('user.html', users=pagination_users, per_page=per_page, rv=rv2, pagination=pagination)
+
+    user_percentage_data = get_user_percentage_data(mysql, users, description)
+    print()
+
+    s_role_type = []
+    percentage = []
+    for user in user_percentage_data:
+        role_type = user["role_type"]
+        count = user["count"]
+        percentage.append(round(count / user_count * 100, 2))
+        s_role_type.append(role_type)
+
+    user_percentage_pie_data = pd.DataFrame(
+        OrderedDict({'type': pd.Series(s_role_type), 'percentage': pd.Series(percentage)})).to_json(
+        orient="records")
+
+    user_percentage_pie_data = json.loads(user_percentage_pie_data)
+    for x in user_percentage_pie_data:
+        print(x)
+
+    return render_template('user.html', users=pagination_users, per_page=per_page, rv=rv2, pagination=pagination,
+                           user_percentage_pie_data=user_percentage_pie_data)
 
 
 @app.route('/insert_users', methods=['GET'])
@@ -164,3 +212,29 @@ def register_tus_user(first_name, last_name, reg_email, pwd):
     cursor.execute(sql)
     connect.close()
     return True
+
+
+@app.route('/lecturer', methods=['GET', 'POST'])
+def lecturer():
+    user_name = request.args['user_name']
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    offset = str((page - 1) * 10)
+
+    student_grades = get_lecture_student_grades(mysql, user_name, 0, offset)
+    pagination = Pagination(page=page, per_page=per_page, total=len(student_grades))
+    # pagination = Pagination(page=page, per_page=per_page, total=len(users))
+    rv = get_lecture_student_grades_rs(mysql, user_name, 10, offset)
+
+    module_name = get_module_name(mysql, user_name)
+    module_name = module_name[0]
+    print()
+    return render_template('lecturer_info.html', student_grades=student_grades, pagination=pagination, rv=rv,
+                           module_name=module_name, user_name=user_name.capitalize())
+
+
+@app.route('/student', methods=['GET', 'POST'])
+def student():
+    user_name = request.args['user_name']
+    password = request.args['password']
+    # student_grades = get_student_grades(mysql, user_name)
+    return render_template('student_info.html', user_name=user_name)

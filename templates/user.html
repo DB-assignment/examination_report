@@ -154,17 +154,12 @@
         series: [{
             name: 'Share',
             data: [
-                {name: 'Admin', y: 2.2},
-                {name: 'Lectures', y: 15.8},
-                {name: 'Students', y: 72},
-
-
-                {#                {% for per in pie_data %}#}
-                {#                    {#}
-                {#                        name: '{{ per['type'] }}',#}
-                {#                        y: {{ per['percentage'] }},#}
-                {#                    },#}
-                {#                {% endfor %}#}
+                    {% for per in user_percentage_pie_data %}
+                        {
+                            name: '{{ per['type'] }}',
+                            y: {{ per['percentage'] }},
+                        },
+                    {% endfor %}
             ]
         }]
 
