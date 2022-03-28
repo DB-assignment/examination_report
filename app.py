@@ -236,4 +236,4 @@ def student():
     user_name = request.args['user_name']
     student_grades = get_student_grades(mysql, user_name)
     # student_grades = get_student_grades(mysql, user_name)
-    return render_template('student_info.html', user_name=user_name, student_grades=student_grades)
+    return render_template('student_info.html', user_name=user_name.capitalize(), student_grades=student_grades)

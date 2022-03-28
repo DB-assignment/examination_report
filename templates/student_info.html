@@ -17,8 +17,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="text-center title_padding h1_title">
-                        TUS Athlone Entry Page
+                        TUS Athlone student exam result
                     </h1>
+                    <h4 class="text-center title_padding h1_title">
+                        Student:&nbsp;&nbsp;&nbsp;<span style="color: #3c763d">{{ user_name }}</span>
+                    </h4>
                 </div>
             </div>
             <div class="row user_border">
@@ -27,15 +30,15 @@
                         <li class="nav-item mt-5">
                             <a class="nav-link" href="/home">Home</a>
                         </li>
-<!--                        <li class="nav-item mt-5">-->
-<!--                            <a class="nav-link" href="#">Admin</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item mt-5">-->
-<!--                            <a class="nav-link" href="#">Lecturer</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item mt-5">-->
-<!--                            <a class="nav-link" href="#">Student</a>-->
-<!--                        </li>-->
+                        <!--                        <li class="nav-item mt-5">-->
+                        <!--                            <a class="nav-link" href="#">Admin</a>-->
+                        <!--                        </li>-->
+                        <!--                        <li class="nav-item mt-5">-->
+                        <!--                            <a class="nav-link" href="#">Lecturer</a>-->
+                        <!--                        </li>-->
+                        <!--                        <li class="nav-item mt-5">-->
+                        <!--                            <a class="nav-link" href="#">Student</a>-->
+                        <!--                        </li>-->
                     </ul>
                 </div>
                 <div class="col-md-9 right-side">
@@ -43,10 +46,10 @@
                         <thead>
                         <tr>
                             <th>
-                                user_id
+                                grade_id
                             </th>
                             <th>
-                                user_name
+                                user_id
                             </th>
                             <th>
                                 first_name
@@ -55,28 +58,40 @@
                                 last_name
                             </th>
                             <th>
-                                email
+                                module_name
                             </th>
                             <th>
-                                password
+                                assessment_mark
+                            </th>
+                            </th>
+                            <th>
+                                exam_mark
+                            </th>
+                            </th>
+                            <th>
+                                final_mark
                             </th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        {% for i in rv %}
+                        {% for per in student_grades %}
                             <tr>
-                                <td>{{ i[0] }}</td>
-                                <td>{{ i[1] }}</td>
-                                <td>{{ i[2] }}</td>
-                                <td>{{ i[3] }}</td>
-                                <td>{{ i[4] }}</td>
-                                <td>{{ i[5] }}</td>
+                                <td>{{ per['grade_id'] }}</td>
+                                <td>{{ per['user_id'] }}</td>
+                                <td>{{ per['first_name'] }}</td>
+
+                                <td>{{ per['last_name'] }}</td>
+                                <td>{{ per['module_name'] }}</td>
+                                <td>{{ per['assessment_mark'] }}</td>
+
+                                <td>{{ per['exam_mark'] }}</td>
+                                <td>{{ per['final_mark'] }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    {{ pagination.links }}
+                    {#                    {{ pagination.links }}#}
                 </div>
             </div>
         </div>
