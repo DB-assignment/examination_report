@@ -9,7 +9,7 @@ from collections import OrderedDict
 from sqlalchemy import true
 
 from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data, validateUser, \
-    get_role, get_lecture_student_grades, get_lecture_student_grades_rs, get_module_name
+    get_role, get_lecture_student_grades, get_lecture_student_grades_rs, get_module_name, get_student_grades
 
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
@@ -227,7 +227,6 @@ def lecturer():
 
     module_name = get_module_name(mysql, user_name)
     module_name = module_name[0]
-    print()
     return render_template('lecturer_info.html', student_grades=student_grades, pagination=pagination, rv=rv,
                            module_name=module_name, user_name=user_name.capitalize())
 
@@ -235,6 +234,6 @@ def lecturer():
 @app.route('/student', methods=['GET', 'POST'])
 def student():
     user_name = request.args['user_name']
-    password = request.args['password']
+    student_grades = get_student_grades(mysql, user_name)
     # student_grades = get_student_grades(mysql, user_name)
-    return render_template('student_info.html', user_name=user_name)
+    return render_template('student_info.html', user_name=user_name, student_grades=student_grades)
