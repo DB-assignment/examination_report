@@ -160,3 +160,23 @@ def get_module_name(mysql, user_name):
     cur.execute(sql)
     rv = cur.fetchall()
     return rv
+
+
+def get_student_grades(mysql, user_name):
+    cur = mysql.connection.cursor()
+    sql = "SELECT grade.grade_id,user_module.user_id,tus_user.first_name,tus_user.last_name,module.module_name,grade.assessment_mark,grade.exam_mark,grade.final_mark FROM assignment_db.user_module" + \
+          " inner join assignment_db.grade" + \
+          " on user_module.grade_id = grade.grade_id" + \
+          " inner join assignment_db.tus_user" + \
+          " on user_module.user_id = tus_user.user_id" + \
+          " inner join assignment_db.module" + \
+          " on user_module.module_id = module.module_id" + \
+          " where user_module.user_id=(select user_id from assignment_db.tus_user where user_name ='" + user_name + "');"
+    print(sql)
+    cur.execute(sql)
+    json_data = []
+    row_headers = [x[0] for x in cur.description]
+    users = cur.fetchall()
+    for result in users:
+        json_data.append(dict(zip(row_headers, result)))
+    return json_data
