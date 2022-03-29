@@ -180,3 +180,13 @@ def get_student_grades(mysql, user_name):
     for result in users:
         json_data.append(dict(zip(row_headers, result)))
     return json_data
+
+
+def update_grade(mysql, grade_id, assessment_mark, exam_mark, final_exam):
+    con = mysql.connection
+    cur = con.cursor()
+    sql = "Update assignment_db.grade set assessment_mark=" + assessment_mark + ",exam_mark=" + exam_mark + ",final_mark=" + final_exam + " where grade_id='" + grade_id + "';"
+    print(sql)
+    cur.execute(sql)
+    con.commit()
+    print()
