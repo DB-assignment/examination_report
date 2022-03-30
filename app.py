@@ -9,7 +9,8 @@ from collections import OrderedDict
 from sqlalchemy import true
 
 from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data, validateUser, \
-    get_role, get_lecture_student_grades, get_lecture_student_grades_rs, get_module_name, get_student_grades
+    get_role, get_lecture_student_grades, get_lecture_student_grades_rs, get_module_name, get_student_grades, \
+    update_grade
 
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
@@ -237,3 +238,15 @@ def student():
     student_grades = get_student_grades(mysql, user_name)
     # student_grades = get_student_grades(mysql, user_name)
     return render_template('student_info.html', user_name=user_name.capitalize(), student_grades=student_grades)
+
+
+@app.route('/grade', methods=['GET', 'POST'])
+def grade():
+    grade_id = request.form['grade_id']
+    assessment_mark = request.form['assessment_mark']
+    exam_mark = request.form['exam_mark']
+    final_exam = int(assessment_mark) + int(exam_mark)
+    update_grade(mysql,grade_id, assessment_mark, exam_mark, str(final_exam))
+    print()
+    # student_grades = get_student_grades(mysql, user_name)
+    return "success"
