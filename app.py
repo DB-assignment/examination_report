@@ -248,5 +248,4 @@ def grade():
     final_exam = int(assessment_mark) + int(exam_mark)
     update_grade(mysql,grade_id, assessment_mark, exam_mark, str(final_exam))
     print()
-    # student_grades = get_student_grades(mysql, user_name)
     return "success"
