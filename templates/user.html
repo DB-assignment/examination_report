@@ -19,6 +19,9 @@
                     <h1 class="text-center title_padding h1_title">
                         TUS Athlone Entry Page
                     </h1>
+                     <h4 class="text-center title_padding h1_title">
+                        Admin: <span style="color: #449d44">{{ user_name }}</span>
+                    </h4>
                 </div>
             </div>
             <div class="row user_border">
@@ -28,7 +31,7 @@
                             <a class="nav-link" href="/home">Home</a>
                         </li>
                         <li class="nav-item mt-5">
-                            <a class="nav-link" href="#">Admin</a>
+                            <a class="nav-link" href="/go_to_register">Register a user</a>
                         </li>
                         <li class="nav-item mt-5">
                             <a class="nav-link" href="#">Lecturer</a>
@@ -83,14 +86,14 @@
     </div>
     <div class="row" style="border: 1px lightgrey solid;background: #f3f6f7;margin-top: 20px">
         <div class="col-md-3" style="margin: auto;text-align: center">
-            <h1>User ratio. </h1>
+            <h1>User Percentage </h1>
         </div>
         <div class="col-md-9">
             <figure class="highcharts-figure">
-                <h1>User ratio. </h1>
+                <h1>User Percentage </h1>
                 <div id="user_percentage"></div>
                 <p class="highcharts-description">
-                    User ratio.
+                    User Percentage
                 </p>
             </figure>
         </div>
@@ -164,6 +167,7 @@
         }]
 
     });
+
 
     // Create the chart  (The distribution of rental areas)
     {#Highcharts.chart('area_percentage', {#}
