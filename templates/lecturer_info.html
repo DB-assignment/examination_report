@@ -288,6 +288,7 @@
         },
         series: [{
             name: 'Student marks',
+            color: 'rgb(77 203 199)',
             data: [
                 {% for per in student_grades %}
                     ['{{ per['first_name'] }}', {{ per['assessment_mark'] }}],
@@ -399,6 +400,7 @@
         },
         series: [{
             name: 'Student marks',
+            color:'rgb(71,155,30)',
             data: [
                 {% for per in student_grades %}
                     ['{{ per['first_name'] }}', {{ per['final_mark'] }}],

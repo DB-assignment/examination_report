@@ -96,17 +96,24 @@
             </div>
         </div>
     </div>
+
     <div class="row" style="border: 1px lightgrey solid;background: #f3f6f7;margin-top: 20px">
-        <div class="col-md-3" style="margin: auto;text-align: center">
-            <h1>User ratio. </h1>
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-4">
             <figure class="highcharts-figure">
-                <h1>User ratio. </h1>
-                <div id="user_percentage"></div>
-                <p class="highcharts-description">
-                    User ratio.
-                </p>
+                <h3 class="text-center">Assessment Marks</h3>
+                <div id="student_marks"></div>
+            </figure>
+        </div>
+        <div class="col-md-4">
+            <figure class="highcharts-figure">
+                <h3 class="text-center">Exam Marks </h3>
+                <div id="exam_marks"></div>
+            </figure>
+        </div>
+        <div class="col-md-4">
+            <figure class="highcharts-figure">
+                <h3 class="text-center">Final Marks </h3>
+                <div id="final_marks"></div>
             </figure>
         </div>
     </div>
@@ -136,231 +143,176 @@
         })
     });
 
-    // Build the chart
-    Highcharts.chart('user_percentage', {
+    //assignment marks
+    Highcharts.chart('student_marks', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'User ratio'
+            text: 'Student\'s assessment marks'
         },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        subtitle: {
+            text: 'Assessment marks'
         },
-        accessibility: {
-            point: {
-                valueSuffix: '%'
-            }
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    connectorColor: 'silver'
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
                 }
             }
         },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'marks'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Got: <b>{point.y:.1f} marks</b>'
+        },
         series: [{
-            name: 'Share',
+            name: 'Student marks',
+            color: 'lightblue',
             data: [
-                {name: 'Admin', y: 2.2},
-                {name: 'Lectures', y: 15.8},
-                {name: 'Students', y: 72},
-
-
-                {#                {% for per in pie_data %}#}
-                {#                    {#}
-                {#                        name: '{{ per['type'] }}',#}
-                {#                        y: {{ per['percentage'] }},#}
-                {#                    },#}
-                {#                {% endfor %}#}
-            ]
+                {% for per in student_grades %}
+                    ['{{ per['module_name'] }}', {{ per['assessment_mark'] }}],
+                {% endfor %}
+                ,
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: 'black',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
         }]
-
     });
 
-    // Create the chart  (The distribution of rental areas)
-    {#Highcharts.chart('area_percentage', {#}
-    {#    chart: {#}
-    {#        type: 'column'#}
-    {#    },#}
-    {#    title: {#}
-    {#        text: 'The proportion of Area.'#}
-    {#    },#}
-    {#    subtitle: {#}
-    {#        text: ''#}
-    {#    },#}
-    {#    accessibility: {#}
-    {#        announceNewData: {#}
-    {#            enabled: true#}
-    {#        }#}
-    {#    },#}
-    {#    xAxis: {#}
-    {#        type: 'category'#}
-    {#    },#}
-    {#    yAxis: {#}
-    {#        title: {#}
-    {#            text: 'Total percent market share'#}
-    {#        }#}
-    {##}
-    {#    },#}
-    {#    legend: {#}
-    {#        enabled: false#}
-    {#    },#}
-    {#    plotOptions: {#}
-    {#        series: {#}
-    {#            borderWidth: 0,#}
-    {#            dataLabels: {#}
-    {#                enabled: true,#}
-    {#                format: '{point.y:.1f}%'#}
-    {#            }#}
-    {#        }#}
-    {#    },#}
-    {##}
-    {#    tooltip: {#}
-    {#        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',#}
-    {#        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'#}
-    {#    },#}
-    {##}
-    {#    series: [#}
-    {#        {#}
-    {#            name: "Area",#}
-    {#            colorByPoint: true,#}
-    {#            data: [#}
-    {##}
-    {#                {% for per in area_percentage_data %}#}
-    {#                    {#}
-    {#                        name: '{{ per['type'] }}',#}
-    {#                        y: {{ per['percentage'] }},#}
-    {#                        drilldown: '{{ per['type'] }}'#}
-    {#                    },#}
-    {#                {% endfor %}#}
-    {##}
-    {#            ]#}
-    {#        }#}
-    {#    ]#}
-    {##}
-    {#})
-        ;
-        #}
-        {##}
-        {##}
-        {#// Create the chart  (The ratio of the number of bedrooms)#}
-        {#Highcharts.chart('bedroom_percentage', {#}
-        {#    chart: {#}
-        {#        plotBackgroundColor: null,#}
-        {#        plotBorderWidth: null,#}
-        {#        plotShadow: false,#}
-        {#        type: 'pie'#}
-        {#    },#}
-        {#    title: {#}
-        {#        text: 'Proportion of housing types in the rental market'#}
-        {#    },#}
-        {#    tooltip: {#}
-        {#        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'#}
-        {#    },#}
-        {#    accessibility: {#}
-        {#        point: {#}
-        {#            valueSuffix: '%'#}
-        {#        }#}
-        {#    },#}
-        {#    plotOptions: {#}
-        {#        pie: {#}
-        {#            allowPointSelect: true,#}
-        {#            cursor: 'pointer',#}
-        {#            dataLabels: {#}
-        {#                enabled: true,#}
-        {#                format: '<b>{point.name}</b>: {point.percentage:.1f} %',#}
-        {#                connectorColor: 'silver'#}
-        {#            }#}
-        {#        }#}
-        {#    },#}
-        {#    series: [{#}
-        {#        name: 'Share',#}
-        {#        data: [#}
-        {#            {% for per in bed_pie_data %}#}
-        {#                {#}
-        {#                    name: '{{ per['type'] }}',#}
-        {#                    y: {{ per['percentage'] }},#}
-        {#                },#}
-        {#            {% endfor %}#}
-        {#        ]#}
-        {#    }]#}
-        {##}
-        {#})
-            ;
-            #}
-            {##}
-            {#// Create the chart  (The ratio of the number of bathrooms.)#}
-            {#Highcharts.chart('bathroom_percentage', {#}
-            {#    chart: {#}
-            {#        type: 'column'#}
-            {#    },#}
-            {#    title: {#}
-            {#        text: 'The proportion of Bath.'#}
-            {#    },#}
-            {#    subtitle: {#}
-            {#        text: ''#}
-            {#    },#}
-            {#    accessibility: {#}
-            {#        announceNewData: {#}
-            {#            enabled: true#}
-            {#        }#}
-            {#    },#}
-            {#    xAxis: {#}
-            {#        type: 'category'#}
-            {#    },#}
-            {#    yAxis: {#}
-            {#        title: {#}
-            {#            text: 'Total percent market share'#}
-            {#        }#}
-            {##}
-            {#    },#}
-            {#    legend: {#}
-            {#        enabled: false#}
-            {#    },#}
-            {#    plotOptions: {#}
-            {#        series: {#}
-            {#            borderWidth: 0,#}
-            {#            dataLabels: {#}
-            {#                enabled: true,#}
-            {#                format: '{point.y:.1f}%'#}
-            {#            }#}
-            {#        }#}
-            {#    },#}
-            {##}
-            {#    tooltip: {#}
-            {#        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',#}
-            {#        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'#}
-            {#    },#}
-            {##}
-            {#    series: [#}
-            {#        {#}
-            {#            name: "Bath",#}
-            {#            colorByPoint: true,#}
-            {#            data: [#}
-            {##}
-            {#                {% for per in bath_pie_data %}#}
-            {#                    {#}
-            {#                        name: '{{ per['type'] }}',#}
-            {#                        y: {{ per['percentage'] }},#}
-            {#                        drilldown: '{{ per['type'] }}'#}
-            {#                    },#}
-            {#                {% endfor %}#}
-            {##}
-            {#            ]#}
-            {#        }#}
-            {#    ]#}
-            {##}
-            {#})
-                ;
-    #}
+    //exam_marks
+    Highcharts.chart('exam_marks', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Student\'s exam marks'
+        },
+        subtitle: {
+            text: 'Exam marks'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'marks'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Got: <b>{point.y:.1f} marks</b>'
+        },
+        series: [{
+            name: 'Student marks',
+            color: 'lightgreen',
+            data: [
+                {% for per in student_grades %}
+                    ['{{ per['module_name'] }}', {{ per['exam_mark'] }}],
+                {% endfor %}
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: 'Green',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
+    //final marks
+    Highcharts.chart('final_marks', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Student\'s final marks'
+        },
+        subtitle: {
+            text: 'Final marks'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'marks'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Got: <b>{point.y:.1f} marks</b>'
+        },
+        series: [{
+            name: 'Student marks',
+            color: 'lightgrey',
+            data: [
+                {% for per in student_grades %}
+                    ['{{ per['module_name'] }}', {{ per['final_mark'] }}],
+                {% endfor %}
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: 'black',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
+
 </script>
 
 

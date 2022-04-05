@@ -10,7 +10,7 @@ from sqlalchemy import true
 
 from service.user import get_user, insert_users_service, get_permission, get_user_percentage_data, validateUser, \
     get_role, get_lecture_student_grades, get_lecture_student_grades_rs, get_module_name, get_student_grades, \
-    update_grade
+    update_grade, save_user
 
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql.cursors
@@ -29,41 +29,17 @@ def add_user_view():
     return render_template('register.html')
 
 
-@app.route('/register', methods=['post'])
-def add_user():
-    conn = None
-    cursor = None
-    try:
-        details = request.form
-        first_name = details['first_name']
-        last_name = details['last_name']
-        email = details['email']
-        password = details['password']
-        # validate the received values
-        if first_name and last_name and email and request.method == 'POST':
-            # save edits
-            sql = "INSERT INTO tus_user(first_name, last_name, email, password) VALUES(%s, %s, %s, %s)"
-            data = (first_name, last_name, email, password)
-            conn = mysql.connect()
-            cursor = conn.cursor()
-            cursor.execute(sql, data)
-            conn.commit()
-            response = jsonify(message='User added successfully.', id=cursor.lastrowid)
-            # response.data = cursor.lastrowid
-            response.status_code = 200
-            flash('User added successfully!')
-            return redirect('/home')
-        else:
-            return 'Error while adding user'
-    except Exception as e:
-        print(e)
-        response = jsonify('Failed to add user.')
-        response.status_code = 400
-    finally:
-        cursor.close()
-        conn.close()
-        return (response)
+@app.route('/register', methods=['POST'])
+def register():
+    user_name = request.form['user_name']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    email = request.form['email']
+    password = request.form['password']
+    save_user(mysql, user_name, first_name, last_name, email, password)
 
+    # return redirect("/users")
+    return render_template('home.html')
 
 db = SQLAlchemy(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:admin@127.0.0.1/assignment-db"
@@ -179,7 +155,7 @@ def users():
         print(x)
 
     return render_template('user.html', users=pagination_users, per_page=per_page, rv=rv2, pagination=pagination,
-                           user_percentage_pie_data=user_percentage_pie_data)
+                           user_percentage_pie_data=user_percentage_pie_data,user_name=user_name.capitalize())
 
 
 @app.route('/insert_users', methods=['GET'])
@@ -188,15 +164,15 @@ def insert_users():
     return "1"
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    reg_email = request.form['reg_email']
-    pwd = request.form['pwd']
-    print(first_name, last_name, reg_email, pwd)
-    register_tus_user(first_name, last_name, reg_email, pwd)
-    return render_template('register.html')
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     first_name = request.form['first_name']
+#     last_name = request.form['last_name']
+#     reg_email = request.form['reg_email']
+#     pwd = request.form['pwd']
+#     print(first_name, last_name, reg_email, pwd)
+#     register_tus_user(first_name, last_name, reg_email, pwd)
+#     return render_template('register.html')
 
 
 def register_tus_user(first_name, last_name, reg_email, pwd):
@@ -246,6 +222,6 @@ def grade():
     assessment_mark = request.form['assessment_mark']
     exam_mark = request.form['exam_mark']
     final_exam = int(assessment_mark) + int(exam_mark)
-    update_grade(mysql,grade_id, assessment_mark, exam_mark, str(final_exam))
+    update_grade(mysql, grade_id, assessment_mark, exam_mark, str(final_exam))
     print()
     return "success"

@@ -2,10 +2,21 @@ from flask import json
 from collections import OrderedDict
 
 
+def save_user(mysql, user_name, first_name, last_name, email, password):
+    cur = mysql.connection.cursor()
+    sql = "INSERT INTO assignment_db.tus_user (user_name, first_name, last_name, email,password) VALUES ('" + user_name + "','" + first_name + "','" + last_name + "','" + email + "','" + password + "');"
+    cur.execute(sql)
+    mysql.connection.commit()
+    cur.close
+
+
 def get_user(mysql, password, user_name):
     cur = mysql.connection.cursor()
-    cur.execute(
-        "SELECT * FROM assignment_db.tus_user where user_name='" + user_name + "' and password='" + password + "';")
+    # cur.execute(
+    #     "SELECT * FROM assignment_db.tus_user where user_name='" + user_name + "' and password='" + password + "';")
+
+    cur.callproc("selecting_user", (user_name, password))
+
     row_headers = [x[0] for x in cur.description]  # this will extract row headers
     rv = cur.fetchall()
     cur.close()
