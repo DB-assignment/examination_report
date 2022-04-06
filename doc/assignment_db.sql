@@ -38,8 +38,52 @@ CREATE TABLE `grade` (
 
 LOCK TABLES `grade` WRITE;
 /*!40000 ALTER TABLE `grade` DISABLE KEYS */;
-INSERT INTO `grade` VALUES (1,16,50,66),(2,17,39,56),(3,15,51,66),(4,16,45,61),(5,16,43,59),(6,18,51,69),(7,19,56,75),(8,20,60,80),(9,15,58,73),(10,19,59,78),(11,19,42,61),(12,19,60,79),(13,16,48,64),(14,16,36,52),(15,18,48,66),(16,14,38,52),(17,15,37,52),(18,14,46,60),(19,20,53,73),(20,19,41,60),(21,17,47,64),(22,19,40,59),(23,16,46,62),(24,17,53,70),(25,17,47,64),(26,18,54,72),(27,17,59,76),(28,17,43,60),(29,15,36,51),(30,16,58,74),(31,19,46,65),(32,20,39,59),(33,15,58,73),(34,19,42,61),(35,18,60,78),(36,15,55,70),(37,18,54,72),(38,17,57,74),(39,19,55,74),(40,16,44,60),(41,14,44,58),(42,20,36,56),(43,20,38,58),(44,17,58,75),(45,17,60,77),(46,20,37,57),(47,18,59,77),(48,20,44,64),(49,19,37,56),(50,20,47,67),(51,17,43,60),(52,18,51,69),(53,17,45,62),(54,15,37,52),(55,20,47,67),(56,20,46,66),(57,19,36,55),(58,16,51,67),(59,17,54,71),(60,18,46,64),(61,16,44,60),(62,20,40,60),(63,15,42,57),(64,18,39,57),(65,18,42,60),(66,14,50,64),(67,16,52,68),(68,14,48,62),(69,18,43,61),(70,17,53,70),(71,17,48,65),(72,16,59,75),(73,15,40,55),(74,14,51,65),(75,19,60,79),(76,17,55,72),(77,15,38,53),(78,20,47,67),(79,15,36,51),(80,14,50,64),(81,17,38,55),(82,18,38,56),(83,17,40,57),(84,19,37,56),(85,17,41,58),(86,14,38,52),(87,14,43,57),(88,15,57,72),(89,16,48,64),(90,16,50,66),(91,20,59,79),(92,15,58,73),(93,17,43,60),(94,15,50,65),(95,14,38,52),(96,16,41,57),(97,15,57,72),(98,15,49,64),(99,19,38,57),(100,18,35,53),(101,17,50,67),(102,19,54,73),(103,18,55,73),(104,17,51,68),(105,19,41,60),(106,20,57,77),(107,15,40,55),(108,19,41,60),(109,15,60,75),(110,20,40,60),(111,14,40,54),(112,17,40,57),(113,17,57,74),(114,19,45,64),(115,15,52,67),(116,17,48,65),(117,19,45,64),(118,14,47,61),(119,16,51,67),(120,15,46,61),(121,18,36,54),(122,14,53,67),(123,18,60,78),(124,20,55,75),(125,16,44,60),(126,16,58,74),(127,15,54,69),(128,18,48,66),(129,14,57,71),(130,15,38,53),(131,16,48,64),(132,20,44,64),(133,14,41,55),(134,17,60,77),(135,19,52,71),(136,20,42,62),(137,16,38,54),(138,15,49,64),(139,19,50,69),(140,20,49,69),(141,15,59,74),(142,14,38,52),(143,20,37,57),(144,16,56,72),(145,17,36,53),(146,14,41,55),(147,20,60,80),(148,20,39,59),(149,19,43,62),(150,15,43,58),(151,14,56,70),(152,18,60,78),(153,20,59,79),(154,20,43,63),(155,17,48,65),(156,18,51,69),(157,15,50,65),(158,14,53,67),(159,17,48,65),(160,17,57,74),(161,16,57,73),(162,16,51,67),(163,15,48,63),(164,16,38,54),(165,20,54,74),(166,14,49,63),(167,16,37,53),(168,17,50,67),(169,19,50,69),(170,17,42,59),(171,16,36,52),(172,19,58,77),(173,16,38,54),(174,18,56,74),(175,14,43,57),(176,19,54,73),(177,16,45,61),(178,17,56,73),(179,20,56,76),(180,19,45,64),(181,18,38,56),(182,15,49,64),(183,17,50,67),(184,18,36,54),(185,15,60,75),(186,20,40,60),(187,17,58,75),(188,19,42,61),(189,18,49,67);
+INSERT INTO `grade` VALUES (1,21,55,76),(2,17,39,56),(3,15,51,66),(4,21,42,63),(5,16,43,59),(6,18,51,69),(7,19,56,75),(8,20,60,80),(9,15,58,73),(10,19,59,78),(11,19,42,61),(12,19,60,79),(13,21,48,69),(14,16,36,52),(15,18,48,66),(16,14,38,52),(17,15,37,52),(18,14,46,60),(19,20,53,73),(20,19,41,60),(21,17,47,64),(22,19,40,59),(23,16,46,62),(24,17,53,70),(25,17,47,64),(26,18,54,72),(27,17,59,76),(28,17,43,60),(29,15,36,51),(30,16,58,74),(31,19,46,65),(32,20,39,59),(33,15,58,73),(34,19,42,61),(35,18,60,78),(36,15,55,70),(37,18,54,72),(38,17,57,74),(39,19,55,74),(40,16,44,60),(41,14,44,58),(42,20,36,56),(43,20,38,58),(44,17,58,75),(45,17,60,77),(46,20,37,57),(47,18,59,77),(48,20,44,64),(49,19,37,56),(50,20,47,67),(51,17,43,60),(52,18,51,69),(53,17,45,62),(54,15,37,52),(55,20,48,68),(56,20,46,66),(57,19,36,55),(58,16,51,67),(59,17,54,71),(60,18,46,64),(61,16,44,60),(62,20,40,60),(63,15,42,57),(64,18,39,57),(65,18,42,60),(66,14,50,64),(67,16,52,68),(68,14,48,62),(69,18,43,61),(70,17,53,70),(71,17,48,65),(72,16,59,75),(73,15,40,55),(74,14,51,65),(75,19,60,79),(76,17,55,72),(77,15,38,53),(78,20,47,67),(79,15,36,51),(80,14,50,64),(81,17,38,55),(82,18,38,56),(83,17,40,57),(84,19,37,56),(85,17,41,58),(86,14,38,52),(87,14,43,57),(88,15,57,72),(89,16,48,64),(90,16,50,66),(91,20,59,79),(92,15,58,73),(93,17,43,60),(94,15,50,65),(95,14,38,52),(96,16,41,57),(97,15,57,72),(98,15,49,64),(99,19,38,57),(100,18,35,53),(101,17,50,67),(102,19,54,73),(103,18,55,73),(104,17,51,68),(105,19,41,60),(106,20,57,77),(107,15,40,55),(108,19,41,60),(109,15,60,75),(110,20,40,60),(111,14,40,54),(112,17,40,57),(113,17,57,74),(114,19,45,64),(115,15,52,67),(116,17,48,65),(117,19,45,64),(118,14,47,61),(119,16,51,67),(120,15,46,61),(121,18,36,54),(122,14,53,67),(123,18,60,78),(124,20,55,75),(125,16,44,60),(126,16,58,74),(127,15,54,69),(128,18,48,66),(129,14,57,71),(130,15,38,53),(131,16,48,64),(132,20,44,64),(133,14,41,55),(134,17,60,77),(135,19,52,71),(136,20,42,62),(137,16,38,54),(138,15,49,64),(139,19,50,69),(140,20,49,69),(141,15,59,74),(142,14,38,52),(143,20,37,57),(144,16,56,72),(145,17,36,53),(146,14,41,55),(147,20,60,80),(148,20,39,59),(149,19,43,62),(150,15,43,58),(151,14,56,70),(152,18,60,78),(153,20,59,79),(154,20,43,63),(155,17,48,65),(156,18,51,69),(157,15,50,65),(158,14,53,67),(159,17,48,65),(160,17,57,74),(161,16,57,73),(162,16,51,67),(163,15,48,63),(164,16,38,54),(165,20,54,74),(166,14,49,63),(167,16,37,53),(168,17,50,67),(169,19,50,69),(170,17,42,59),(171,16,36,52),(172,19,58,77),(173,16,38,54),(174,18,56,74),(175,14,43,57),(176,19,54,73),(177,16,45,61),(178,17,56,73),(179,20,56,76),(180,19,45,64),(181,18,38,56),(182,15,49,64),(183,17,50,67),(184,18,36,54),(185,15,60,75),(186,20,40,60),(187,17,58,75),(188,19,42,61),(189,18,49,67);
 /*!40000 ALTER TABLE `grade` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `updating_grade` BEFORE UPDATE ON `grade` FOR EACH ROW BEGIN
+     insert into grade_log (grade_id,assessment_mark,exam_mark,final_mark) values(old.grade_id, old.assessment_mark, old.exam_mark, old.final_mark);
+   END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `grade_log`
+--
+
+DROP TABLE IF EXISTS `grade_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `grade_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `grade_id` int DEFAULT NULL,
+  `assessment_mark` int DEFAULT NULL,
+  `exam_mark` int DEFAULT NULL,
+  `final_mark` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grade_log`
+--
+
+LOCK TABLES `grade_log` WRITE;
+/*!40000 ALTER TABLE `grade_log` DISABLE KEYS */;
+INSERT INTO `grade_log` VALUES (1,1,16,50,66),(2,4,18,40,58),(3,13,16,48,64),(4,4,20,40,60);
+/*!40000 ALTER TABLE `grade_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -150,14 +194,14 @@ DROP TABLE IF EXISTS `tus_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tus_user` (
-  `user_id` int NOT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `user_name` varchar(45) NOT NULL,
   `first_name` varchar(20) DEFAULT NULL,
   `last_name` varchar(20) DEFAULT NULL,
   `email` varchar(40) DEFAULT NULL,
   `password` varchar(20) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +210,7 @@ CREATE TABLE `tus_user` (
 
 LOCK TABLES `tus_user` WRITE;
 /*!40000 ALTER TABLE `tus_user` DISABLE KEYS */;
-INSERT INTO `tus_user` VALUES (1,'enda','Enda','Fallon','enda@gmail.com','enda'),(2,'jenny','Jenny','Burke','jenny@gmail.com','jenny'),(3,'david','David','Scott','david@gmail.com','david'),(4,'declan','Declan','Byrne','declan@gmail.com','declan'),(5,'mark','Mark','Daly','mark@gmail.com','mark'),(6,'michael','Michael','Russell','michael@gmail.com','michael'),(7,'brian','Brian','Lee','brian@gmail.com','brian'),(8,'jackie','Jackie','Stewart','jackie@gmail.com','jackie'),(9,'niall','Niall','Murray','niall@gmail.com','niall'),(10,'robert','Robert','Stewart','robert@gmail.com','robert'),(11,'wade','Wade','Williams','wade@gmail.com','wade'),(12,'dave','Dave','Harris','dave@gmail.com','dave'),(13,'thomas','Thomas','Robinson','thomas@gmail.com','thomas'),(14,'ivan','Ivan','Walker','ivan@gmail.com','ivan'),(15,'riley','Riley','Scott','rileyt@gmail.com','riley'),(16,'gilbert','Gilbert','Nelson','gilbertt@gmail.com','gilbert'),(17,'daisy','Daisy','Mitchell','daisy@gmail.com','daisy'),(18,'deborah','Deborah','Morgan','deborah@gmail.com','deborah'),(19,'isabel','Isabel','Cooper','isabel@gmail.com','isabel'),(20,'martin','Martin','Howard','martin@gmail.com','martin'),(21,'davis','Davis','Smith','davis@gmail.com','davis'),(22,'eli','Eli','White','eli@gmail.com','eli'),(23,'aaron','Aaron','Perry','aaron@gmail.com','aaron'),(24,'marlin','Marlin','Clark','marlin@gmail.com','marlin'),(25,'paul','Paul','Richards','paul@gmail.com','paul'),(26,'hector','Hector','Wheeler','hector@gmail.com','hector'),(27,'isabel','Isabel','Stanley','isabel@gmail.com','isabel'),(28,'stella','Stella','Holland','stella@gmail.com','stella'),(29,'alexis','Alexis','Warburton','alexis@gmail.com','alexis'),(30,'vera','Vera','Terry','vera@gmail.com','vera'),(31,'lucy','Lucy','Foster','lucy@gmail.com','lucy'),(32,'shrivardhan','Shrivardhan','Limbkar','shrivardhan@gmail.com','shrivardhan');
+INSERT INTO `tus_user` VALUES (1,'enda','Enda','Fallon','enda@gmail.com','enda'),(2,'jenny','Jenny','Burke','jenny@gmail.com','jenny'),(3,'david','David','Scott','david@gmail.com','david'),(4,'declan','Declan','Byrne','declan@gmail.com','declan'),(5,'mark','Mark','Daly','mark@gmail.com','mark'),(6,'michael','Michael','Russell','michael@gmail.com','michael'),(7,'brian','Brian','Lee','brian@gmail.com','brian'),(8,'jackie','Jackie','Stewart','jackie@gmail.com','jackie'),(9,'niall','Niall','Murray','niall@gmail.com','niall'),(10,'robert','Robert','Stewart','robert@gmail.com','robert'),(11,'wade','Wade','Williams','wade@gmail.com','wade'),(12,'dave','Dave','Harris','dave@gmail.com','dave'),(13,'thomas','Thomas','Robinson','thomas@gmail.com','thomas'),(14,'ivan','Ivan','Walker','ivan@gmail.com','ivan'),(15,'riley','Riley','Scott','rileyt@gmail.com','riley'),(16,'gilbert','Gilbert','Nelson','gilbertt@gmail.com','gilbert'),(17,'daisy','Daisy','Mitchell','daisy@gmail.com','daisy'),(18,'deborah','Deborah','Morgan','deborah@gmail.com','deborah'),(19,'isabel','Isabel','Cooper','isabel@gmail.com','isabel'),(20,'martin','Martin','Howard','martin@gmail.com','martin'),(21,'davis','Davis','Smith','davis@gmail.com','davis'),(22,'eli','Eli','White','eli@gmail.com','eli'),(23,'aaron','Aaron','Perry','aaron@gmail.com','aaron'),(24,'marlin','Marlin','Clark','marlin@gmail.com','marlin'),(25,'paul','Paul','Richards','paul@gmail.com','paul'),(26,'hector','Hector','Wheeler','hector@gmail.com','hector'),(27,'isabel','Isabel','Stanley','isabel@gmail.com','isabel'),(28,'stella','Stella','Holland','stella@gmail.com','stella'),(29,'alexis','Alexis','Warburton','alexis@gmail.com','alexis'),(30,'vera','Vera','Terry','vera@gmail.com','vera'),(31,'lucy','Lucy','Foster','lucy@gmail.com','lucy'),(32,'shrivardhan','Shrivardhan','Limbkar','shrivardhan@gmail.com','shrivardhan'),(35,'1','2','3','4','5');
 /*!40000 ALTER TABLE `tus_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,6 +273,25 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'assignment_db'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `selecting_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selecting_user`(p_user_name text,p_password text)
+BEGIN
+	SELECT * FROM assignment_db.tus_user where user_name=p_user_name and password = p_password;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -239,4 +302,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-27  2:32:03
+-- Dump completed on 2022-04-05 13:45:30
